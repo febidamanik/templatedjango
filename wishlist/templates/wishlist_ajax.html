@@ -113,7 +113,7 @@
     <div class="my-4 card w-25 bg-dark mx-auto">
         <form method="post" action="{% url 'wishlist:submit_ajax' %}" class="d-flex flex-column align-items-center card-body">
             {% csrf_token %}
-            <p style="font-size: 2rem">Add New Item</p>
+            <h4>Tambahkan Barang</h4>
             <div class="mb-3">
                 <label for="nama_barang">Nama Barang</label>
                 <input type="text" name="nama_barang" placeholder="Masukkan Nama Barang">
