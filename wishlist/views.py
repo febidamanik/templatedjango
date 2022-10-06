@@ -42,7 +42,7 @@ def submit_ajax(request):
         new_barang = BarangWishlist(nama_barang=nama_barang, harga_barang=harga_barang, deskripsi=deskripsi)
         new_barang.save()
         return HttpResponseRedirect('/wishlist/ajax/')
-    return HttpResponse('post success')
+    return HttpResponse('Selamat, berhasil dikirim!')
 
 def register(request):
     form = UserCreationForm()
