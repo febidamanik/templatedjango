@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        get_data();
+        $( "added-data" ).submit(function( event ) {
+            event.preventDefault();
+
+            var actionurl = event.currentTarget.action;
+
+            $.ajax({
+                    url: actionurl,
+                    type: 'post',
+                    dataType: 'json',
+                    data: $("added-data").serialize(),
+                    success: function(data) {
+                        var tr = $("<tr></tr>");
+                        for (const [key, value] of Object.entries(data)) {
+                            var td = $("<td></td>").html(value);
+                            tr.append(td);
+                        }
+                        $("#tabel-wishlist").append(tr);
+                    },
+                    error: function(){
+                        alert("ERROR");
+                    }
+            });
+        });
+    });
+
+    function get_data() {
+        $.get("../json", function(data) {
+            data.forEach(element => {
+                var tr = $("<tr></tr>");
+                for (const [key, value] of Object.entries(element.fields)) {
+                    var td = $("<td></td>").html(value);
+                    tr.append(td);
+                }
+                $("#tabel-wishlist").append(tr);
+            });
+        });
+    }
+</script>
+{% endblock meta %}
+
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+<nav class="navbar navbar-expand-lg bg-light">
+    <a href="https://getbootstrap.com/docs/5.2/components/navbar/"
+    class = "navbar-brand mb-0 h1">
+    <img class ="d-inline-block align-top"
+    src = "https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg"
+    width = "30" height = "30" />
+    Navbar
+    </a>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">🏠Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="\wishlist\json">🔗Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://tugas2-pbp-febidamanik.herokuapp.com/mywatchlist/html/">🙎‍♀️Febi Claudia Damanik</a>
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button type="button" class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+<head>
+    <div class="p-3 mb-2 bg-light text-dark">
+        <h3>📝✨MY WISHLIST✨📝</h3>
+        <div
+        class="bg-image"
+        style="
+            background-image: url('https://c4.wallpaperflare.com/wallpaper/26/488/979/the-sun-music-the-city-stars-space-hd-wallpaper-preview.jpg');
+            height: 20vh;
+        "
+        ></div>
+            <div class="card text-white bg-dark mb-3" style="max-width: 300rem;"></div>
+                <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                    <div class="card-body">
+                      <p class="card-text">“Here you leave today and enter the world of yesterday, tomorrow, and fantasy.”
+                        ― Walt Disney </p>
+                    </div>
+            </div>
+          </div>
+</head>
+
+<table id="tabel-wishlist" class="table table-striped">
+    <thead>
+        <tr>
+        <th>Nama Barang</th>
+        <th>Harga Barang</th>
+        <th>Deskripsi</th>
+    </thead>
+</table>
+
+
+<h7>Sesi terakhir login: {{ last_login }}</h7>
+
+<div class="text-white vh-100 item">
+    <div class="my-4 card w-25 bg-dark mx-auto">
+        <form method="post" action="{% url 'wishlist:submit_ajax' %}" class="d-flex flex-column align-items-center card-body">
+            {% csrf_token %}
+            <p style="font-size: 2rem">Add New Item</p>
+            <div class="mb-3">
+                <label for="nama_barang">Nama Barang</label>
+                <input type="text" name="nama_barang" placeholder="Masukkan Nama Barang">
+            </div>
+            <div class="mb-3">
+                <label for="harga_barang">Harga Barang</label>
+                <input type="number" name="harga_barang" placeholder="Masukkan Harga">
+            </div>
+            <div class="mb-3">
+                <label for="nama_barang">Deskripsi</label>
+                <input type="text" name="deskripsi" placeholder="Deskripsi Harga">
+            </div>
+            <button class="button" type="submit">Add</button>
+        </form>
+    </div>
+    </div>
+</div>
+
+<style>
+
+    tr {
+        transition: all 0.05s ease;
+        color: #000;
+        height: 50px;
+    }
+
+    tr:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+        transform: scale(1.01);
+    }
+
+    th {
+        color: #FFF;
+        font-family: "Verdana";
+    }
+
+    input[type=text], input[type=number]{
+    margin: 5px auto;
+    width: 100%;
+    padding: 10px;
+    }
+
+    .button {
+    border: 0px;
+    background-color: #6e81b1;
+    color: #fff;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin: auto;
+    display: block;
+    justify-content: center;
+    box-shadow: 3px 1px 10px 0px rgba(0,0,0,0.75);
+    width: 120px;  
+    }
+    .button:hover {
+        background-color: rgba(148, 20, 120, 0.3);
+        transform: scale(1.01);
+    }
+    p {
+        font-family: "Cinzel";
+    }
+</style>
+{% endblock content %}
